@@ -9,6 +9,11 @@ public class HitScan : MonoBehaviour {
 		RaycastHit hit;
 		if(Physics.Raycast(ray, out hit, 40))
 		{
+			var plate = hit.collider.GetComponent<TargetCollider>();
+			if(plate != null)
+			{
+				plate.target.Smash();
+			}
 			var effect = EffectSpawner.GetEffect("Spark");
 			effect.SetActive(true);
 			effect.transform.position = hit.point;
