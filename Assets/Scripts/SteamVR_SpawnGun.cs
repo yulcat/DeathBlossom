@@ -17,6 +17,7 @@ public class SteamVR_SpawnGun : MonoBehaviour
         var go = GameObject.Instantiate(prefab);
         go.transform.position = attachPoint.transform.position;
         go.transform.rotation = attachPoint.transform.rotation;
+		go.GetComponent<HellfireShotgun>().SetDevice(trackedObj);
 
         joint = go.AddComponent<FixedJoint>();
         joint.connectedBody = attachPoint;
@@ -35,6 +36,7 @@ public class SteamVR_SpawnGun : MonoBehaviour
             var go = joint.gameObject;
             var rigidbody = go.GetComponent<Rigidbody>();
             Object.DestroyImmediate(joint);
+			Destroy(go.GetComponent<HellfireShotgun>());
             joint = null;
             Object.Destroy(go, 15.0f);
 
