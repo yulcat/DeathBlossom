@@ -6,12 +6,16 @@ public class TargetPlate : MonoBehaviour {
 	Vector3 initialRotation;
 	float rotation;
 	bool moving = false;
+	AudioSource source;
 
 	// Use this for initialization
 	void Start () {
 		initialRotation = transform.localRotation.eulerAngles;
 		initialRotation.x = Mathf.DeltaAngle(0f,initialRotation.x);
 		rotation = initialRotation.x;
+		source = GetComponent<AudioSource>();
+		transform.rotation = Quaternion.identity;
+		StartCoroutine(Recover());
 	}
 	
 	public void Smash()
@@ -23,8 +27,9 @@ public class TargetPlate : MonoBehaviour {
 	}
 	IEnumerator Recover()
 	{
-		yield return new WaitForSeconds(Random.Range(2f,5f));
+		yield return new WaitForSeconds(Random.Range(2f,10f));
 		moving = false;
+		// source.Play();
 		transform.DOLocalRotate(initialRotation,1f);
 	}
 }

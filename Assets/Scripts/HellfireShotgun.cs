@@ -7,10 +7,12 @@ public class HellfireShotgun : MonoBehaviour {
 	public float spread = 4f;
 	public Transform muzzle;
 	int currentShotLeft = 4;
+	AudioSource source;
 
 	public void SetDevice(SteamVR_TrackedObject obj)
 	{
 		trackedObj = obj;
+		source = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -20,6 +22,7 @@ public class HellfireShotgun : MonoBehaviour {
 		if(device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
 		{
 			currentShotLeft--;
+			source.Play();
 			for(int i=0; i<shotCount; i++)
 			{
 				var spread2d = (Random.insideUnitSphere + Random.insideUnitSphere) * spread;
