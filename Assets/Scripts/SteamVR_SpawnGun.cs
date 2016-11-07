@@ -45,15 +45,21 @@ public class SteamVR_SpawnGun : MonoBehaviour
             // location, however, we would then want to predict ahead the visual representation
             // by the same amount we are predicting our render poses.
 
+            var localVelocity = transform.InverseTransformVector(device.velocity);
+            var localAngular = transform.InverseTransformVector(device.angularVelocity);
+            var velocityFromAngular = Vector3.Cross(localAngular, attachPoint.transform.localPosition);
+            localVelocity += velocityFromAngular;
+            var velocity = transform.TransformVector(localVelocity);
+
             var origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
             if (origin != null)
             {
-                rigidbody.velocity = origin.TransformVector(device.velocity);
+                rigidbody.velocity = origin.TransformVector(velocity);
                 rigidbody.angularVelocity = origin.TransformVector(device.angularVelocity);
             }
             else
             {
-                rigidbody.velocity = device.velocity;
+                rigidbody.velocity = velocity;
                 rigidbody.angularVelocity = device.angularVelocity;
             }
 
